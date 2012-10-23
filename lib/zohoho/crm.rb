@@ -26,11 +26,15 @@ module Zohoho
       contacts.first
     end
 
-    def add_contact(name)
+    def add_contact_with_name(name)
       first_name, last_name = parse_name(name)
-      xmlData = parse_data({'First Name' => first_name, 'Last Name' => last_name}, 'Contacts')  
-      record = @conn.call('Contacts', 'insertRecords', {:xmlData => xmlData, :newFormat => 1}, :post) 
-      record['Id']    
+      add_contact_with_data({'First Name' => first_name, 'Last Name' => last_name})
+    end
+
+    def add_contact_with_data(data)
+      xmlData = parse_data(data, 'Contacts')
+      record = @conn.call('Contacts', 'insertRecords', {:xmlData => xmlData, :newFormat => 1}, :post)
+      record['Id']
     end
 
     def add_lead(company, last_name, info = {})
@@ -107,7 +111,7 @@ module Zohoho
     def find_with_pdc_contacts_by_email(email)
       @conn.call('Contacts', 'getSearchRecordsPDC', :newFormat => 1, :searchColumn => 'email',
                  :searchValue => email,
-                 :selectColumns => 'Contacts(Contact Owner,Lead Source,First Name,Last Name,Account Name)')
+                 :selectColumns => 'Contacts(UID)')
     end
 
     private 

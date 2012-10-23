@@ -19,8 +19,7 @@ module Zohoho
       query.merge!({ :authtoken => self.auth_token, :scope => "#{@service_name.downcase}api" })
 
       url = [zoho_uri, entry, api_method].join('/')
-      puts url
-      puts query
+
       case http_method
       when :get
         raw = JSON.parse(self.class.get(url, :query => query))

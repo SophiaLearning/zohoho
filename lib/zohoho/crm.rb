@@ -99,6 +99,12 @@ module Zohoho
       @conn.call('Leads', 'getSearchRecords', :searchCondition => "(Email|=|#{email})", :selectColumns => 'All')
     end
 
+    def find_leads_by_pdc(email)
+      search_condition = "(email|=|#{email})"
+      @conn.call('Leads', 'getSearchRecordsPDC', :newFormat => 1, :searchColumn => 'email',
+                 :searchValue => email, :selectColumns => 'Leads(Last Name,Website,Email)')
+    end
+
     private 
     
     def parse_name(name)

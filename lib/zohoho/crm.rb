@@ -99,10 +99,15 @@ module Zohoho
       @conn.call('Leads', 'getSearchRecords', :searchCondition => "(Email|=|#{email})", :selectColumns => 'All')
     end
 
-    def find_leads_by_pdc(email)
-      search_condition = "(email|=|#{email})"
+    def find_with_pdc_leads_by_email(email)
       @conn.call('Leads', 'getSearchRecordsPDC', :newFormat => 1, :searchColumn => 'email',
                  :searchValue => email, :selectColumns => 'Leads(Last Name,Website,Email)')
+    end
+
+    def find_with_pdc_contacts_by_email(email)
+      @conn.call('Contacts', 'getSearchRecordsPDC', :newFormat => 1, :searchColumn => 'email',
+                 :searchValue => email,
+                 :selectColumns => 'Contacts(Contact Owner,Lead Source,First Name,Last Name,Account Name)')
     end
 
     private 

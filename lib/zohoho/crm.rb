@@ -111,7 +111,7 @@ module Zohoho
     def find_with_pdc_contacts_by_email(email)
       @conn.call('Contacts', 'getSearchRecordsPDC', :newFormat => 1, :searchColumn => 'email',
                  :searchValue => email,
-                 :selectColumns => 'Contacts(UID)')
+                 :selectColumns => 'Contacts(CONTACTID)')
     end
 
     private 

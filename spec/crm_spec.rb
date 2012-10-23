@@ -42,7 +42,7 @@ describe "Zohoho::CRM" do
     
     it 'should add Johnny Depp as a new contact' do
       VCR.use_cassette('add_contact', :record => :new_episodes) do
-        @contact = @crm.add_contact "Johnny Depp"
+        @contact = @crm.add_contact_with_name "Johnny Depp"
       end
       @contact.should == "384023000000077001"        
     end

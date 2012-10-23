@@ -3,7 +3,7 @@ source "http://rubygems.org"
 # Example:
 #   gem "activesupport", ">= 2.3.5"
   gem 'httparty', "~>0.8.0"
-  gem 'json', "~>1.6.1"
+  gem 'json', "~>1.7.5"
   gem 'xml-simple', "~>1.1.0"   
 
 # Add dependencies to develop your gem here.

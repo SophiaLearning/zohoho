@@ -37,6 +37,13 @@ module Zohoho
       record['Id']
     end
 
+    def update_contact_with_data(contact, data = {})
+      id = contact['CONTACTID']
+      info.merge!({'id' => id})
+      xmlData = parse_data(info, 'Contacts')
+      record = @conn.call('Contacts', "updateRecords?id=#{id}", {:xmlData => xmlData, :newFormat => 1}, :post)
+    end
+
     def add_lead(company, last_name, info = {})
       info.merge!({'Company' => company, 'Last Name' => last_name})
       xmlData = parse_data(info, 'Leads')

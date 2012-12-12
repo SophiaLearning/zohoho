@@ -7,7 +7,6 @@ module Zohoho
 
   class Crm
     include HTTParty
-    format :json
 
     def self.generate_token(user, password)
       Zohoho::Authentication.generate_token('ZohoCRM/crmapi', user, password)

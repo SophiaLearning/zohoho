@@ -4,7 +4,6 @@ module Zohoho
 
   class Connection
     include HTTParty
-    format :json
 
     attr_reader :auth_token
 

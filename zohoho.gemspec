@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "zohoho"
-  s.version = "0.2.3"
+  s.version = "0.2.5"
   s.authors = ["Ilya Andreyuk"]
   s.date = "2012-09-20"
   s.description = "Fork from KentonWhite zohoho api wrapper"

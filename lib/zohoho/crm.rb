@@ -1,28 +1,29 @@
-module Zohoho 
+module Zohoho
   require 'httparty'
   require 'json'
   require 'xmlsimple'
   require 'date'
   require 'open-uri'
-  
+
   class Crm
     include HTTParty
-    
+    format :json
+
     def self.generate_token(user, password)
       Zohoho::Authentication.generate_token('ZohoCRM/crmapi', user, password)
     end
-    
+
     def initialize(auth_token)
       @conn = Zohoho::Connection.new 'CRM', auth_token
     end
-    
+
     def contact(name)
       first_name, last_name = parse_name(name)
       contacts = find_contacts_by_last_name(last_name)
       contacts.select! {|c|
         if c['First Name'].nil? then c['First Name'] = '' end
         first_name.match(c['First Name'])
-      } 
+      }
       contacts.first
     end
 
@@ -77,7 +78,7 @@ module Zohoho
 
     def post_note(entity_id, note_title, note_content)
       xmlData = parse_data({'entityId' => entity_id, 'Note Title' => note_title, 'Note Content' => note_content}, 'Notes')
-      record = @conn.call('Notes', 'insertRecords', {:xmlData => xmlData, :newFormat => 1}, :post) 
+      record = @conn.call('Notes', 'insertRecords', {:xmlData => xmlData, :newFormat => 1}, :post)
       record['Id']
     end
 
@@ -100,7 +101,7 @@ module Zohoho
       query = "(Due Date|is|#{date_str})"
       @conn.call('Tasks', 'getSearchRecords', :searchCondition => query, :selectColumns => 'All')
     end
-    
+
     def call(*params)
       @conn.call(*params)
     end
@@ -121,8 +122,8 @@ module Zohoho
                  :selectColumns => 'Contacts(First Name,Last Name,Email)')
     end
 
-    private 
-    
+    private
+
     def parse_name(name)
       match_data = name.match(/\s(\S*)$/)
       match_data.nil? ? last_name = name : last_name = match_data[1]
@@ -131,13 +132,13 @@ module Zohoho
       match_data.nil? ? first_name = '' : first_name = match_data[1]
 
       return first_name, last_name
-    end 
+    end
 
     def parse_data(data, entry)
       fl = data.map {|e| Hash['val', e[0], 'content', e[1]]}
       row = Hash['no', '1', 'FL', fl]
       data = Hash['row', row]
-      XmlSimple.xml_out(data, :RootName => entry)    
+      XmlSimple.xml_out(data, :RootName => entry)
     end
 
     def find_contacts_by_last_name(last_name)
@@ -145,5 +146,5 @@ module Zohoho
       @conn.call('Contacts', 'getSearchRecords', :searchCondition => search_condition, :selectColumns => 'All')
     end
 
-  end 
+  end
 end

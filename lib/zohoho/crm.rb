@@ -121,6 +121,10 @@ module Zohoho
                  :selectColumns => 'Contacts(First Name,Last Name,Email)')
     end
 
+    def get_contact_by_id(id)
+      @conn.call('Contacts', 'getRecordById', :id => id, :newFormat => 1).first
+    end
+
     private
 
     def parse_name(name)
